@@ -1,0 +1,40 @@
+#include <NAservoChip.h>
+#include <RCarduinoSerialServosLocal.h>
+const static int amount = 8;
+int active[amount] = {0,1,5,6,4,2,3,7};
+NAservoChip servo[20];
+
+void setup() {
+  for(int i = 0; i < 20; i++){
+    servo[i].Setup(i,0,180);
+    if(i == 8) servo[i].MoveTo(60);
+    else    servo[i].MoveTo(90);
+  }
+  CRCArduinoSerialServos::begin();
+  
+  Serial.begin(9600);
+}
+
+void loop() {
+  /* Loop run
+  for(int i = 0; i < 8; i++){
+    //servo[active[i]].MoveTo(random()%180);
+    while(!servo[active[i]].MoveTo(180,150));
+  }
+  delay(1000);
+  
+  for(int i = 0; i < 8; i++){
+    while(!servo[active[i]].MoveTo(0,150));
+  }
+  //*/
+  
+  //* Processing Control
+  if (Serial.find("x")) {
+    int value[amount];
+    for(int i = 0; i < amount; i++){
+      value[i] = Serial.parseInt();
+      servo[active[i]].MoveTo(value[i]);
+    }
+  }
+  //*/
+}
