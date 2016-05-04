@@ -11,7 +11,7 @@ void setup()
   servo[1].write(40);
   delay(1000);
   
-  Serial.begin(115200);
+  Serial.begin(9600);
 }
 
 void loop()
